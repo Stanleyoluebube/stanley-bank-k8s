@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stanley-bank-server
+  labels:
+    app: stanley-bank-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: stanley-bank-server
+  template:
+    metadata:
+      labels:
+        app: stanley-bank-server
+    spec:
+      containers:
+      - name: stanley-bank-server
+        image: stanleybank/server:latest
+        ports:
+        - containerPort: 5000
+        env:
+        - name: PORT
+          value: "5000"
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: password
+        - name: DB_HOST
+          value: "stanley-bank-db-service"
+        - name: DB_NAME
+          value: "stanleybankdb"
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: jwt-secret
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1"

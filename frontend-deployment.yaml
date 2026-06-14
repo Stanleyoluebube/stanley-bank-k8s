@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stanley-bank-app
+  labels:
+    app: stanley-bank
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: stanley-bank
+  template:
+    metadata:
+      labels:
+        app: stanley-bank
+    spec:
+      containers:
+      - name: stanley-bank
+        image: stanleybank/app:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: url
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
