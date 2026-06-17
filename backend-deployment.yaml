@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: stanley-bank-server
-        image: stanleybank/server:latest
+        image: 178220402760.dkr.ecr.us-east-2.amazonaws.com/stanley-bank-backend:latest
         ports:
         - containerPort: 5000
         env:
