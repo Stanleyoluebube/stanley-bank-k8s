@@ -1,0 +1,14 @@
+# Local kind cluster for development — not used in AWS deployment.
+# This file is kept here as a reference for spinning up a local
+# Kubernetes cluster with `kind` for testing manifests.
+# Use: `kind create cluster --config kind-config.yaml`
+# Not deployed by ArgoCD — kept here for reference.
+version: "3"
+services:
+  # placeholder — actual kind configuration would live in kind-config.yaml.
+  # This docker-compose is left here for reference of the kind pattern
+  # only. For EKS deployment, the real cluster is created by Terraform
+  # in stanley-bank-aws (module-eks).
+  null:
+    image: alpine
+    command: ["echo", "see stanley-bank-aws/module-eks for the real cluster"]

@@ -1,0 +1,29 @@
+# REFERENCE: Job — runs a Pod to completion (one-shot task).
+# Use Jobs for: DB migrations, batch processing, one-off scripts.
+# Not deployed by ArgoCD — kept here for reference.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: example-job
+  namespace: default
+spec:
+  backoffLimit: 3
+  completions: 1
+  parallelism: 1
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: example
+          image: busybox
+          args:
+            - /bin/sh
+            - -c
+            - "echo job started; sleep 5; echo job done"
+          resources:
+            requests:
+              memory: 64Mi
+              cpu: 100m
+            limits:
+              memory: 128Mi
+              cpu: 250m

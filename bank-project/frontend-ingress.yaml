@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: stanley-bank-frontend-ingress
+  namespace: default
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+    alb.ingress.kubernetes.io/ssl-redirect: "443"
+    # ACM certificate ARN is created by Terraform in stanley-bank-aws
+    # (module-dns). After first apply, replace the placeholder below with
+    # the value of `terraform output acm_certificate_arn`.
+    alb.ingress.kubernetes.io/certificate-arn: REPLACE_WITH_ACM_CERT_ARN
+spec:
+  ingressClassName: alb
+  rules:
+    - host: app.stanleybank.site
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: stanley-bank-service
+                port:
+                  number: 80

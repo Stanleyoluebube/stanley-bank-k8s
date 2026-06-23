@@ -1,0 +1,6 @@
+# K8s repo ignores — manifests are tracked, no build artefacts.
+.DS_Store
+*.swp
+*.tmp
+.env
+.env.local

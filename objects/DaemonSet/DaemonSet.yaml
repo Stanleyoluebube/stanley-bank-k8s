@@ -1,0 +1,37 @@
+# REFERENCE: DaemonSet — runs one Pod per node.
+# A DaemonSet places a copy of a Pod on every node (or a subset you select).
+# Common uses: log shippers (fluentd), node monitors, CNI plugins.
+# Not deployed by ArgoCD — kept here for reference.
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: example-daemonset
+  namespace: default
+  labels:
+    app: example-daemonset
+spec:
+  selector:
+    matchLabels:
+      app: example-daemonset
+  template:
+    metadata:
+      labels:
+        app: example-daemonset
+    spec:
+      containers:
+        - name: example
+          image: busybox
+          args:
+            - /bin/sh
+            - -c
+            - "while true; do echo hello; sleep 10; done"
+          resources:
+            requests:
+              memory: 32Mi
+              cpu: 50m
+            limits:
+              memory: 64Mi
+              cpu: 100m
+      # Optional: only run on nodes with this label
+      # nodeSelector:
+      #   disktype: ssd

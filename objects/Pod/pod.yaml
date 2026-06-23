@@ -1,0 +1,26 @@
+# REFERENCE: Pod — the smallest deployable unit.
+# You rarely create raw Pods in production (use a Deployment instead),
+# but it is useful to know what a Pod spec looks like.
+# Not deployed by ArgoCD — kept here for reference.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example-pod
+  namespace: default
+  labels:
+    app: example
+spec:
+  containers:
+    - name: example
+      image: busybox
+      args:
+        - /bin/sh
+        - -c
+        - "sleep 3600"
+      resources:
+        requests:
+          memory: 32Mi
+          cpu: 50m
+        limits:
+          memory: 64Mi
+          cpu: 100m

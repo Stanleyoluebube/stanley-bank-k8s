@@ -1,0 +1,26 @@
+# REFERENCE: Pod with multiple containers (sidecar pattern).
+# All containers in a Pod share the same network namespace and can
+# communicate via localhost. Common uses: app + log shipper,
+# app + metrics exporter.
+# Not deployed by ArgoCD — kept here for reference.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example-multi-container
+  namespace: default
+  labels:
+    app: example
+spec:
+  containers:
+    - name: app
+      image: nginx:1.27
+      ports:
+        - containerPort: 80
+    - name: log-shipper
+      image: busybox
+      args:
+        - /bin/sh
+        - -c
+        - "tail -f /var/log/app.log"
+      # In a real example this would volumeMount into the app's log path
+  restartPolicy: Always

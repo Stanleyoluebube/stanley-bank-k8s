@@ -1,0 +1,36 @@
+# REFERENCE: StatefulSet — Pods with stable identity and persistent storage.
+# Use StatefulSets for: databases, message queues, anything needing
+# stable network IDs or persistent volumes per replica.
+# Not deployed by ArgoCD — kept here for reference.
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: example-statefulset
+  namespace: default
+spec:
+  serviceName: example-headless
+  replicas: 3
+  selector:
+    matchLabels:
+      app: example
+  template:
+    metadata:
+      labels:
+        app: example
+    spec:
+      containers:
+        - name: example
+          image: nginx:1.27
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: data
+              mountPath: /usr/share/nginx/html
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi

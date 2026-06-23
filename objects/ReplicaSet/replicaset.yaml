@@ -1,0 +1,26 @@
+# REFERENCE: ReplicaSet — keeps a stable set of replica Pods running.
+# In practice you almost always use a Deployment, which manages a
+# ReplicaSet for you. Listed here for completeness.
+# Not deployed by ArgoCD — kept here for reference.
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: example-replicaset
+  namespace: default
+  labels:
+    app: example
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: example
+  template:
+    metadata:
+      labels:
+        app: example
+    spec:
+      containers:
+        - name: example
+          image: nginx:1.27
+          ports:
+            - containerPort: 80

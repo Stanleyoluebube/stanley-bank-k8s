@@ -1,0 +1,19 @@
+# REFERENCE: Service type ClusterIP — internal-only virtual IP.
+# ClusterIP is the default Service type. Use it for in-cluster traffic.
+# The bank frontend and backend both expose ClusterIP services; the
+# ALB ingress fronts them with a public DNS name.
+# Not deployed by ArgoCD — kept here for reference.
+apiVersion: v1
+kind: Service
+metadata:
+  name: example-clusterip
+  namespace: default
+spec:
+  type: ClusterIP
+  selector:
+    app: example
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8080

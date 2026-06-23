@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stanley-bank-app
+  namespace: default
+  labels:
+    app: stanley-bank
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: stanley-bank
+  template:
+    metadata:
+      labels:
+        app: stanley-bank
+    spec:
+      containers:
+        - name: stanley-bank
+          # Image is updated automatically by the frontend CI workflow.
+          # The ArgoCD source repo is stanley-bank-k8s; this file is committed
+          # to that repo by GitHub Actions with the new ECR image tag.
+          image: REPLACE_WITH_ECR_IMAGE
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NEXT_PUBLIC_API_URL
+              value: "https://api.stanleybank.site/api"
+            - name: PORT
+              value: "3000"
+            - name: HOSTNAME
+              value: "0.0.0.0"
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 30
+            periodSeconds: 30
