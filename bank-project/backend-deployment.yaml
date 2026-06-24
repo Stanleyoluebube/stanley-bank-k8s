@@ -18,7 +18,7 @@ spec:
       containers:
         - name: stanley-bank-server
           # Image is updated automatically by the backend CI workflow.
-          image: REPLACE_WITH_ECR_IMAGE
+          image: 178220402760.dkr.ecr.us-east-2.amazonaws.com/stanleybank/server:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 5000
