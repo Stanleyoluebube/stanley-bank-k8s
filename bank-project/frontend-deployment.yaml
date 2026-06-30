@@ -20,7 +20,7 @@ spec:
           # Image is updated automatically by the frontend CI workflow.
           # The ArgoCD source repo is stanley-bank-k8s; this file is committed
           # to that repo by GitHub Actions with the new ECR image tag.
-          image: 178220402760.dkr.ecr.us-east-2.amazonaws.com/stanleybank/app:4fcbd1bf29a63f9063a1cb4f438bed52ce330365/stanleybank/app:latest
+          image: 178220402760.dkr.ecr.us-east-2.amazonaws.com/stanleybank/app:efa507500d2d38a3edefebb76595522e37ed116f
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
